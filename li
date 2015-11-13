@@ -36,14 +36,17 @@ Y, X = stdscr:getmaxyx()
 screen = { x = X, y = Y }
 
 -- print and repl
-for i = 1,screen.x do stdscr:mvaddstr(i,0,'~') end
-stdscr:move(0,0)
+if fileTable.charCount == 0 then
+    for i = 1,screen.x do stdscr:mvaddstr(i,0,'~') end
+    stdscr:move(0,0)
+else
+    stdscr:mvaddstr(0,0,f:read('*a'))
+end
 stdscr:refresh()
 c = stdscr:getch() ; if c < 256 then c = string.char(c) end
 while (c ~= 'q') do
     c = stdscr:getch() ; if c < 256 then c = string.char(c) end
 end
-stdscr:mvaddstr(5,5, 'oh, right..')
 stdscr:refresh()
 
 
