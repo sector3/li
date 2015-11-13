@@ -59,4 +59,6 @@ if (fileTable ~= nil ) then
     print('lines', fileTable.lineCount)
 end
 
+fileLen = f:seek('end')
 io.close(f)
+if (fileLen == 0) then os.remove(arg[1]) end
