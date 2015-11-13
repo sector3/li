@@ -13,7 +13,7 @@ f = io.open(arg[1], 'r+')       -- existing file
 if ( f == nil ) then
     f = io.open(arg[1], 'w')    -- new file
 else
-    -- gather stats on the file
+    -- gather stats on existing file
     fileTable.charCount = f:seek('end')
     f:seek('set', 0)
     for l in f:lines() do fileTable.lineCount = fileTable.lineCount + 1 end
