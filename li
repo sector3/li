@@ -20,18 +20,38 @@ if (arg[1] ~= nil) then
         for l in f:lines() do lcount = lcount + 1 end
         f:seek('set', 0)
         fileTable = { charCount = filesize, lineCount = lcount }
-        -- print(fileTable.charCount, fileTable.lineCount)
     end
 else
     f = assert(io.tmpfile())
 end
 
+-- init screen and get some info
 curses.initscr()
 stdscr = curses.stdscr()
 Y, X = stdscr:getmaxyx()
---screen = { x, y }
 screen = { x = X, y = Y }
+curses.cbreak()
+curses.echo(0)
+curses.nl(0)
+
+-- print and repl
+stdscr:clear()
+stdscr:mvaddstr(1,0,'~')
+stdscr:refresh()
+c = stdscr:getch() ; if c < 256 then c = string.char(c) end
+while (c ~= 'q') do
+    stdscr:refresh()
+    c = stdscr:getch() ; if c < 256 then c = string.char(c) end
+end
+
+
+-- print info and quit
 curses.endwin()
-print(screen.y, screen.x)
+print('x:', screen.x)
+print('y:', screen.y)
+if (fileTable ~= nil ) then
+    print('chars', fileTable.charCount)
+    print('lines', fileTable.lineCount)
+end
 
 io.close(f)
