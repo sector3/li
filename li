@@ -27,22 +27,24 @@ end
 
 -- init screen and get some info
 curses.initscr()
+curses.cbreak()
+curses.echo(false)
+curses.nl(false)
 stdscr = curses.stdscr()
+stdscr:clear()
 Y, X = stdscr:getmaxyx()
 screen = { x = X, y = Y }
-curses.cbreak()
-curses.echo(0)
-curses.nl(0)
 
 -- print and repl
-stdscr:clear()
-stdscr:mvaddstr(1,0,'~')
+for i = 1,screen.x do stdscr:mvaddstr(i,0,'~') end
+stdscr:move(0,0)
 stdscr:refresh()
 c = stdscr:getch() ; if c < 256 then c = string.char(c) end
 while (c ~= 'q') do
-    stdscr:refresh()
     c = stdscr:getch() ; if c < 256 then c = string.char(c) end
 end
+stdscr:mvaddstr(5,5, 'oh, right..')
+stdscr:refresh()
 
 
 -- print info and quit
