@@ -1,0 +1,37 @@
+#!/Users/user/pkg/bin/lua5.2
+
+curses = require 'curses'
+
+if (#arg ~= 1) then
+    io.write('usage: li [file]\n')
+    os.exit()
+end
+
+-- check arg[1] for filename, try open, else create
+if (arg[1] ~= nil) then
+    f = io.open(arg[1], 'r+')       -- existing file
+    if ( f == nil ) then
+        f = io.open(arg[1], 'w')    -- new file
+    else
+        -- gather stats on the file
+        filesize = f:seek('end')
+        f:seek('set', 0)
+        lcount = 0
+        for l in f:lines() do lcount = lcount + 1 end
+        f:seek('set', 0)
+        fileTable = { charCount = filesize, lineCount = lcount }
+        -- print(fileTable.charCount, fileTable.lineCount)
+    end
+else
+    f = assert(io.tmpfile())
+end
+
+curses.initscr()
+stdscr = curses.stdscr()
+Y, X = stdscr:getmaxyx()
+--screen = { x, y }
+screen = { x = X, y = Y }
+curses.endwin()
+print(screen.y, screen.x)
+
+io.close(f)
