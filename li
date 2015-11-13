@@ -12,6 +12,7 @@ if (arg[1] ~= nil) then
     f = io.open(arg[1], 'r+')       -- existing file
     if ( f == nil ) then
         f = io.open(arg[1], 'w')    -- new file
+        fileTable = {}
     else
         -- gather stats on the file
         filesize = f:seek('end')
@@ -40,7 +41,9 @@ if fileTable.charCount == 0 then
     for i = 1,screen.x do stdscr:mvaddstr(i,0,'~') end
     stdscr:move(0,0)
 else
-    stdscr:mvaddstr(0,0,f:read('*a'))
+    if fileTable.count ~= nil and fileTable.charCount ~= 0 then
+        stdscr:mvaddstr(0,0,f:read('*a'))
+    end
 end
 stdscr:refresh()
 c = stdscr:getch() ; if c < 256 then c = string.char(c) end
@@ -61,4 +64,4 @@ end
 
 fileLen = f:seek('end')
 io.close(f)
-if (fileLen == 0) then os.remove(arg[1]) end
+if (fileLen == 0 and arg[1] ~= nil) then os.remove(arg[1]) end
