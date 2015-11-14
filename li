@@ -31,13 +31,20 @@ stdscr:clear()
 Y, X = stdscr:getmaxyx()
 screen = { x = X, y = Y }
 
+function fileLines (f)  -- iterator factory: while there are lines in a
+    local i = -1        -- file, return them
+    return function () i = i + 1; return f:read('*l'), i end
+end
+
 -- print and repl
 if fileTable.charCount == 0 then
     for i = 1,screen.x do stdscr:mvaddstr(i,0,'~') end
     stdscr:move(0,0)
 else
     if fileTable.charCount ~= 0 then
-        stdscr:mvaddstr(0,0,f:read('*a'))
+        for l, i in fileLines(f) do
+            stdscr:mvaddstr(i,0,l)
+        end
     end
 end
 stdscr:refresh()
