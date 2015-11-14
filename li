@@ -31,8 +31,8 @@ stdscr:clear()
 Y, X = stdscr:getmaxyx()
 screen = { x = X, y = Y }
 
-function fileLines (f)  -- iterator factory: while there are lines in a
--- 1st iteration is 0   -- file, return them
+function fileLines (f)     -- iterator factory: while there are lines in a
+-- 1st iteration i is 0    -- file, return them
     local i = -1
     return function () i = i + 1; return f:read('*l'), i end
 end
