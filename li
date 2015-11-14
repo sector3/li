@@ -9,7 +9,7 @@ end
 
 fileTable = { charCount = 0, lineCount = 0, curLoc = 0 }
 -- check arg[1] for filename, try open, else create
-f = io.open(arg[1], 'r+')       -- existing file
+f = io.open(arg[1], 'r')       -- existing file
 if ( f == nil ) then
     f = io.open(arg[1], 'w')    -- new file
 else
