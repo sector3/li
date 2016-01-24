@@ -11,9 +11,11 @@ fileTable = { charCount = 0, lineCount = 0, curLoc = 0 }
 -- check arg[1] for filename, try open, else create
 f = io.open(arg[1], 'r')       -- existing file
 if ( f == nil ) then
-    f = io.open(arg[1], 'w')    -- new file
+    fbuf = ''                  -- don't need file yet, just buffer will do
 else
     -- gather stats on existing file
+    fbuf = f:read('*a')
+    --io.close(f)
     fileTable.charCount = f:seek('end')
     f:seek('set', 0)
     for l in f:lines() do fileTable.lineCount = fileTable.lineCount + 1 end
@@ -55,16 +57,5 @@ while (c ~= 'q') do
 end
 stdscr:refresh()
 
-
 -- print info and quit
 curses.endwin()
-print('x:', screen.x)
-print('y:', screen.y)
-if (fileTable ~= nil ) then
-    print('chars', fileTable.charCount)
-    print('lines', fileTable.lineCount)
-end
-
-fileLen = f:seek('end')
-io.close(f)
-if (fileLen == 0 ) then os.remove(arg[1]) end
