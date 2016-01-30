@@ -61,8 +61,11 @@ stdscr:refresh()
 -- input mode
 repeat            -- if character is printable
 c = stdscr:getch() ; if c < 256 then c = string.char(c) end
-until (     c == 'q'       -- Unsure how to do this. There are a lot of cmds
-         or c == 'q'    )  -- in vi. List could be inclusive or exclusive.
+-- Unsure how to handle this. There are a lot of cmds in vi.
+-- The list could be inclusive or exclusive.
+until (     c == ':'            -- ex mode
+         or c == 'w'            -- beginning of next word
+         or c == 'W'    )       -- beginning of previous word
 
 -- print info and quit
 curses.endwin()
