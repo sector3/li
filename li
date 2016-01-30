@@ -46,13 +46,14 @@ screen = { x = X, y = Y }
 
 -- print file if exists
 if file.charCount() == 0 then
-    for i = 1,screen.x do stdscr:mvaddstr(i,0,'~') end
+-- we subtract q from screen.y because we don't print on the topmost row
+    for i = 1,screen.y-1 do stdscr:mvaddstr(i,0,'~') end
 else
     local i = 0
     for k,l in pairs(file.buf) do
         stdscr:mvaddstr(i,0,l)
         i = i + 1
-        for j = i,screen.x do stdscr:mvaddstr(j,0,'~') end
+        for j = i,screen.y do stdscr:mvaddstr(j,0,'~') end
     end
 end
 stdscr:move(0,0)
