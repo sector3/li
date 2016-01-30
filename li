@@ -69,5 +69,14 @@ until (     c == ':'            -- ex mode
          or c == 'w'            -- beginning of next word
          or c == 'W'    )       -- beginning of previous word
 
+if (c == ':') then
+    --stdscr:mvaddstr(screen.y,0,':')
+    stdscr:mvaddstr(screen.y-1,0,':')
+    stdscr:refresh()
+    repeat                 -- if character is CR
+    inChar = stdscr:getch() ; if inChar ~= 13 then c = string.char(inChar) end
+    until ( inChar == 13)
+end
+
 -- print info and quit
 curses.endwin()
