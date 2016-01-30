@@ -10,17 +10,13 @@ end
 fileTable = { charCount = 0, lineCount = 0, curLoc = 0 }
 -- check arg[1] for filename, try open, else create
 f = io.open(arg[1], 'r')       -- existing file
-if ( f == nil ) then
-    fbuf = ''                  -- don't need file yet, just buffer will do
-else
+if ( f ~= nil ) then
     -- gather stats on existing file
     fbuf = f:read('*a')
-    --io.close(f)
     fileTable.charCount = f:seek('end')
     f:seek('set', 0)
     for l in f:lines() do fileTable.lineCount = fileTable.lineCount + 1 end
     f:seek('set', 0)
-    fileTable = { charCount = filesize, lineCount = lcount }
 end
 
 -- init screen and get some info
