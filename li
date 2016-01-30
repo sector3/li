@@ -34,6 +34,11 @@ if ( f ~= nil ) then
     f:close()
 end
 
+function quit()
+    curses.endwin()
+    os.exit()
+end
+
 -- init screen and get some info
 curses.initscr()
 curses.cbreak()
@@ -60,32 +65,34 @@ stdscr:move(0,0)
 stdscr:refresh()
 
 -- command mode
-repeat            -- if character is printable
+while true do
+print('start')
+                  -- if character is printable
 c = stdscr:getch() ; if c < 256 then c = string.char(c) end
 -- Unsure how to handle this. There are a lot of cmds in vi.
 -- The list could be inclusive or exclusive.
-until (     c == ':'            -- ex mode
-         or c == 'a'            -- insert mode (append restrictions)
-         or c == 'w'            -- beginning of next word
-         or c == 'W'    )       -- beginning of previous word
-
-if (c == ':') then
-    --stdscr:mvaddstr(screen.y,0,':')
-    stdscr:mvaddstr(screen.y-1,0,':')
-    stdscr:refresh()
-    str = ''    -- don't yet know if we want this global or not...
-    local x = 0
-    repeat
-        inChar = stdscr:getch()
-        -- if character is CR
-        if inChar ~= 13 then
-            local c = string.char(inChar)
-            x = x + 1
-            str = str .. c
-            stdscr:mvaddstr(screen.y-1,x,c)
+    if    (     c == ':'            -- ex mode
+             or c == 'a'            -- insert mode (append restrictions)
+             or c == 'w'            -- beginning of next word
+             or c == 'W'    )       -- beginning of previous word
+    then
+        if (c == ':') then
+            --stdscr:mvaddstr(screen.y,0,':')
+            stdscr:mvaddstr(screen.y-1,0,':')
+            stdscr:refresh()
+            str = ''    -- don't yet know if we want this global or not...
+            local x = 0
+            repeat
+                inChar = stdscr:getch()
+                -- if character is CR
+                if inChar ~= 13 then
+                    local c = string.char(inChar)
+                    x = x + 1
+                    str = str .. c
+                    stdscr:mvaddstr(screen.y-1,x,c)
+                end
+            until (inChar == 13)
+            if str == 'q' then quit() end
         end
-    until ( inChar == 13)
+    end
 end
-
--- print info and quit
-curses.endwin()
