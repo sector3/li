@@ -16,7 +16,7 @@ file = { name = arg[1],
          buf = {},
          lineCount = function() return #file.buf end,
          -- there are no newlines in buf. charCount result differs from
-         charCount = function()     -- wc -l [samefile]
+         charCount = function()     -- wc -c [samefile]
                         local count = 0
                         for i = 1, file.lineCount() do
                             count = count + #file.buf[i]
