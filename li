@@ -73,8 +73,17 @@ if (c == ':') then
     --stdscr:mvaddstr(screen.y,0,':')
     stdscr:mvaddstr(screen.y-1,0,':')
     stdscr:refresh()
-    repeat                 -- if character is CR
-    inChar = stdscr:getch() ; if inChar ~= 13 then c = string.char(inChar) end
+    str = ''    -- don't yet know if we want this global or not...
+    local x = 0
+    repeat
+        inChar = stdscr:getch()
+        -- if character is CR
+        if inChar ~= 13 then
+            local c = string.char(inChar)
+            x = x + 1
+            str = str .. c
+            stdscr:mvaddstr(screen.y-1,x,c)
+        end
     until ( inChar == 13)
 end
 
