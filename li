@@ -46,7 +46,7 @@ screen = { x = X, y = Y }
 
 -- print file if exists
 if file.charCount() == 0 then
--- we subtract q from screen.y because we don't print on the topmost row
+-- we subtract 1 from screen.y because we don't print on the topmost row
     for i = 1,screen.y-1 do stdscr:mvaddstr(i,0,'~') end
 else
     local i = 0
