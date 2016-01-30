@@ -12,7 +12,8 @@ function fileToTable(f)
     return function () i = i + 1; return f:read('*l'), i end
 end
 
-file = { buf = {},
+file = { name = arg[1],
+         buf = {},
          lineCount = function() return #file.buf end,
          -- there are no newlines in buf. charCount result differs from
          charCount = function()     -- wc -l [samefile]
