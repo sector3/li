@@ -31,7 +31,6 @@ if ( f ~= nil ) then
     for l, i in fileToTable(f) do
         file.buf[i] = l
     end
-    f:seek('set', 0)
     f:close()
 end
 
