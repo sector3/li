@@ -44,10 +44,9 @@ if fileTable.charCount == 0 then
     for i = 1,screen.x do stdscr:mvaddstr(i,0,'~') end
     stdscr:move(0,0)
 else
-    if fileTable.charCount ~= 0 then
-        for l, i in fileLines(f) do
-            stdscr:mvaddstr(i,0,l)
-        end
+    for l, i in fileLines(f) do
+        stdscr:mvaddstr(i,0,l)
+        stdscr:move(0,0)
     end
 end
 stdscr:refresh()
