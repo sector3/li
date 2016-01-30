@@ -39,17 +39,19 @@ function fileLines (f)     -- iterator factory: while there are lines in a
     return function () i = i + 1; return f:read('*l'), i end
 end
 
--- print and repl
+-- print file if exists
 if fileTable.charCount == 0 then
     for i = 1,screen.x do stdscr:mvaddstr(i,0,'~') end
-    stdscr:move(0,0)
 else
     for l, i in fileLines(f) do
         stdscr:mvaddstr(i,0,l)
-        stdscr:move(0,0)
+        for j = i+1,screen.x do stdscr:mvaddstr(j,0,'~') end
     end
 end
+stdscr:move(0,0)
 stdscr:refresh()
+
+-- input mode
 c = stdscr:getch() ; if c < 256 then c = string.char(c) end
 while (c ~= 'q') do
     c = stdscr:getch() ; if c < 256 then c = string.char(c) end
