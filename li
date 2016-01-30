@@ -65,6 +65,7 @@ c = stdscr:getch() ; if c < 256 then c = string.char(c) end
 -- Unsure how to handle this. There are a lot of cmds in vi.
 -- The list could be inclusive or exclusive.
 until (     c == ':'            -- ex mode
+         or c == 'a'            -- insert mode (append restrictions)
          or c == 'w'            -- beginning of next word
          or c == 'W'    )       -- beginning of previous word
 
