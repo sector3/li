@@ -58,7 +58,7 @@ end
 stdscr:move(0,0)
 stdscr:refresh()
 
--- input mode
+-- command mode
 repeat            -- if character is printable
 c = stdscr:getch() ; if c < 256 then c = string.char(c) end
 -- Unsure how to handle this. There are a lot of cmds in vi.
