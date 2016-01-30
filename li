@@ -52,10 +52,11 @@ stdscr:move(0,0)
 stdscr:refresh()
 
 -- input mode
+repeat            -- if character is printable
 c = stdscr:getch() ; if c < 256 then c = string.char(c) end
-while (c ~= 'q') do
-    c = stdscr:getch() ; if c < 256 then c = string.char(c) end
-end
+until (     c == 'q'       -- Unsure how to do this. There are a lot of cmds
+         or c == 'q'    )  -- in vi. List could be inclusive or exclusive.
+
 stdscr:refresh()
 
 -- print info and quit
