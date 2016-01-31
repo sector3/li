@@ -40,6 +40,15 @@ function quit()
     os.exit()
 end
 
+function exprint(err)
+    saveCursor = {y = file.cursorPos.y, x = file.cursorPos.x}
+    stdscr:move(screen.y-1,0)
+    stdscr:clrtoeol()
+    stdscr:mvaddstr(screen.y-1, 0, err)
+    stdscr:move(file.cursorPos.y, file.cursorPos.x)
+    stdscr:refresh()
+end
+
 -- init screen and get some info
 curses.initscr()
 curses.cbreak()
@@ -96,11 +105,36 @@ c = stdscr:getch() ; if c < 256 then c = string.char(c) end
             if str == 'q'
             then quit()
             else -- invalid ex command. print error.
-                stdscr:mvaddstr(screen.y-1,0,
-                                'Not a valid editor command: ' .. str)
-                stdscr:move(file.cursorPos.y,file.cursorPos.x)
+                exprint('Not a valid editor command: ' .. str)
+            end
+        else
+        if (c == 'w') then
+--[[
+* create search string from cursor position to eol
+* run string.find on this string
+* if we don't get a match, append the next line of file.buf to the search
+  string
+* run string.find again
+* repeat this until a match is found or nil is found.
+* if match is found, generate the new cursor co-ords and move cursor
+* else if eol is found, ring the terminal bell
+--]]
+            local done = false
+            searchString = string.sub(file.buf[file.cursorPos.y+1],
+                                            file.cursorPos.x+1,
+                                            #file.buf[file.cursorPos.y+1])
+            --stdscr:move(0,string.find(file.buf[file.cursorPos.y+1],'%s'))
+            result = string.find(searchString,'%s')
+            if result ~= nil then
+                if result == 1 then -- already on top of whitespace
+    -- subtract 1 from result because we don't count the column we're on
+                    result = string.find(searchString,'%S') - 1
+                end
+                file.cursorPos.x = file.cursorPos.x + result
+                stdscr:move(file.cursorPos.y, file.cursorPos.x)
                 stdscr:refresh()
             end
+        end
         end
     end
 end
