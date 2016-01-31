@@ -97,7 +97,7 @@ c = stdscr:getch() ; if c < 256 then c = string.char(c) end
             then quit()
             else -- invalid ex command. print error.
                 stdscr:mvaddstr(screen.y-1,0,
-                                'Not a valid editor command: '..str)
+                                'Not a valid editor command: ' .. str)
                 stdscr:refresh()
             end
         end
