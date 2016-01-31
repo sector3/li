@@ -22,7 +22,8 @@ file = { name = arg[1],
                             count = count + #file.buf[i]
                         end
                         return count
-                     end
+                     end,
+         cursorPos = { x = 0, y = 0 }
        }
 -- check arg[1] for filename, try open, else create
 f = io.open(arg[1], 'r')       -- existing file
@@ -76,7 +77,6 @@ c = stdscr:getch() ; if c < 256 then c = string.char(c) end
              or c == 'W'    )       -- beginning of previous word
     then
         if (c == ':') then
-            --stdscr:mvaddstr(screen.y,0,':')
             stdscr:move(screen.y-1,0)
             stdscr:clrtoeol()
             stdscr:mvaddstr(screen.y-1,0,':')
@@ -98,6 +98,7 @@ c = stdscr:getch() ; if c < 256 then c = string.char(c) end
             else -- invalid ex command. print error.
                 stdscr:mvaddstr(screen.y-1,0,
                                 'Not a valid editor command: ' .. str)
+                stdscr:move(file.cursorPos.y,file.cursorPos.x)
                 stdscr:refresh()
             end
         end
