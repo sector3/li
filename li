@@ -66,7 +66,6 @@ stdscr:refresh()
 
 -- command mode
 while true do
-print('start')
                   -- if character is printable
 c = stdscr:getch() ; if c < 256 then c = string.char(c) end
 -- Unsure how to handle this. There are a lot of cmds in vi.
@@ -78,6 +77,8 @@ c = stdscr:getch() ; if c < 256 then c = string.char(c) end
     then
         if (c == ':') then
             --stdscr:mvaddstr(screen.y,0,':')
+            stdscr:move(screen.y-1,0)
+            stdscr:clrtoeol()
             stdscr:mvaddstr(screen.y-1,0,':')
             stdscr:refresh()
             str = ''    -- don't yet know if we want this global or not...
@@ -92,7 +93,13 @@ c = stdscr:getch() ; if c < 256 then c = string.char(c) end
                     stdscr:mvaddstr(screen.y-1,x,c)
                 end
             until (inChar == 13)
-            if str == 'q' then quit() end
+            if str == 'q'
+            then quit()
+            else -- invalid ex command. print error.
+                stdscr:mvaddstr(screen.y-1,0,
+                                'Not a valid editor command: '..str)
+                stdscr:refresh()
+            end
         end
     end
 end
