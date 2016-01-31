@@ -103,23 +103,11 @@ c = stdscr:getch() ; if c < 256 then c = string.char(c) end
                 end
             until (inChar == 13)
             if str == 'q'
-            then quit()
+                then quit()
             else -- invalid ex command. print error.
                 exprint('Not a valid editor command: ' .. str)
             end
-        else
-        if (c == 'w') then
---[[
-* create search string from cursor position to eol
-* run string.find on this string
-* if we don't get a match, append the next line of file.buf to the search
-  string
-* run string.find again
-* repeat this until a match is found or nil is found.
-* if match is found, generate the new cursor co-ords and move cursor
-* else if eol is found, ring the terminal bell
---]]
-            local done = false
+        elseif (c == 'w') then
             searchString = string.sub(file.buf[file.cursorPos.y+1],
                                             file.cursorPos.x+1,
                                             #file.buf[file.cursorPos.y+1])
@@ -134,7 +122,6 @@ c = stdscr:getch() ; if c < 256 then c = string.char(c) end
                 stdscr:move(file.cursorPos.y, file.cursorPos.x)
                 stdscr:refresh()
             end
-        end
         end
     end
 end
