@@ -81,7 +81,7 @@ c = stdscr:getch() ; if c < 256 then c = string.char(c) end
             stdscr:clrtoeol()
             stdscr:mvaddstr(screen.y-1,0,':')
             stdscr:refresh()
-            str = ''    -- don't yet know if we want this global or not...
+            local str = ''
             local x = 0
             repeat
                 inChar = stdscr:getch()
